@@ -23,3 +23,48 @@ Thumbs.db
 # Editors
 .vscode/
 .idea/
+
+# допиши в .gitignore (або заміни повністю)
+cat > .gitignore <<'EOF'
+# deps
+node_modules/
+
+# збірки / кеш
+.next/
+_next/
+out/
+dist/
+build/
+.cache/
+
+# env / ОС / редактори
+.env*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+EOF
+
+# прибрати вже додані кеш-файли з індексу (із диска НЕ видаляє)
+git rm -r --cached _next .next out dist build .cache .DS_Store || true
+git commit -m "chore: ignore build/cache (_next, .next, out, dist, ...)"
+
+# додай/онови .gitignore (якщо ще не)
+cat > .gitignore <<'EOF'
+node_modules/
+.next/
+_next/
+out/
+dist/
+build/
+.cache/
+.env*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+EOF
+
+# прибрати вже додані службові файли з індексу (із диска не видаляє)
+git rm -r --cached _next .next out dist build .cache .DS_Store 2>/dev/null || true
+git commit -m "chore: ignore build/cache folders"

@@ -23,6 +23,25 @@
   <link rel="alternate" hreflang="tr" href="https://immigrantinvest.com/tr/" />
   <link rel="alternate" hreflang="es" href="https://immigrantinvest.com/es/" />
 
+  <script>
+  (function () {
+    var BASE = "/kabanchik2";
+    function pref(u){ return (u && u[0]==="/" && u[1]!=="/") ? BASE + u : u; }
+
+    // <link href>, <script src>, <img src>, <a href>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('link[href^="/"]:not([href^="//"])')
+        .forEach(el => el.href = pref(el.getAttribute('href')));
+      document.querySelectorAll('script[src^="/"]:not([src^="//"])')
+        .forEach(el => el.src = pref(el.getAttribute('src')));
+      document.querySelectorAll('img[src^="/"]')
+        .forEach(el => el.src = pref(el.getAttribute('src')));
+      document.querySelectorAll('a[href^="/"]:not([href^="//"])')
+        .forEach(el => el.href = pref(el.getAttribute('href')));
+    });
+  })();
+</script>
+
   <meta property="og:title" content="Иммигрант Инвест → второе гражданство и вид на жительство" />
   <meta property="og:description"
         content="Вид на жительство и гражданство стран Евросоюза и Карибского бассейна. Мы помогаем состоятельным людям стать свободными и забыть, что в мире существуют границы! Узнать больше на официальном сайте →" />

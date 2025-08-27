@@ -32,6 +32,25 @@
   <meta property="og:locale" content="ru_RU" />
   <meta property="og:type" content="article" />
 
+  <script>
+  (function () {
+    var BASE = "/kabanchik2";
+    function pref(u){ return (u && u[0]==="/" && u[1]!=="/") ? BASE + u : u; }
+
+    // <link href>, <script src>, <img src>, <a href>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('link[href^="/"]:not([href^="//"])')
+        .forEach(el => el.href = pref(el.getAttribute('href')));
+      document.querySelectorAll('script[src^="/"]:not([src^="//"])')
+        .forEach(el => el.src = pref(el.getAttribute('src')));
+      document.querySelectorAll('img[src^="/"]')
+        .forEach(el => el.src = pref(el.getAttribute('src')));
+      document.querySelectorAll('a[href^="/"]:not([href^="//"])')
+        .forEach(el => el.href = pref(el.getAttribute('href')));
+    });
+  })();
+</script>
+
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@Immigrantinvest" />
   <meta name="twitter:creator" content="@Immigrantinvest" />

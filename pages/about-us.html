@@ -15,6 +15,26 @@
   <link rel="preload" as="image" href="./images/logo.svg" />
   <link rel="stylesheet" href="/style.css">
 
+  <script>
+  (function () {
+    var BASE = "/kabanchik2";
+    function pref(u){ return (u && u[0]==="/" && u[1]!=="/") ? BASE + u : u; }
+
+    // <link href>, <script src>, <img src>, <a href>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('link[href^="/"]:not([href^="//"])')
+        .forEach(el => el.href = pref(el.getAttribute('href')));
+      document.querySelectorAll('script[src^="/"]:not([src^="//"])')
+        .forEach(el => el.src = pref(el.getAttribute('src')));
+      document.querySelectorAll('img[src^="/"]')
+        .forEach(el => el.src = pref(el.getAttribute('src')));
+      document.querySelectorAll('a[href^="/"]:not([href^="//"])')
+        .forEach(el => el.href = pref(el.getAttribute('href')));
+    });
+  })();
+</script>
+
+
   <!-- SEO (можеш залишити або прибрати, не впливає на відмальовку) -->
   <link rel="canonical" href="https://immigrantinvest.com/ru/" />
   <link rel="alternate" hreflang="en" href="https://immigrantinvest.com/" />
