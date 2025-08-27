@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Истории клиентов — временно недоступно</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    /* === Fullscreen maintenance === */
+    html, body { height: 100%; }
+    body { margin: 0; }
+
+    /* фон під всю сторінку (можеш прибрати/змінити) */
+    .maint-bg {
+      position: fixed; inset: 0; z-index: -1;
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #20345f 0%, transparent 60%),
+        linear-gradient(180deg, #0f1d3a 0%, #14264a 100%);
+    }
+
+    /* контейнер на всю висоту екрана */
+    .maint-screen{
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: clamp(20px, 4vw, 40px);
+    }
+
+    /* «картка», розтягнута на всю сторінку */
+    .maint-card{
+      width: 100%; min-height: calc(100vh - clamp(40px, 8vw, 80px));
+      background:#fff; border: 0; border-radius: 0;
+      box-shadow: none; /* без тіні, щоб зливалося з фоном */
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      text-align:center; padding: clamp(24px, 4vw, 40px);
+      max-width: 1400px; /* трохи обмежимо, щоб текст не розлазився на надшироких */
+    }
+
+    .maint-gear{font-size:56px; line-height:1; margin-bottom:10px; animation:spin 2.6s linear infinite}
+    @keyframes spin{ to{ transform:rotate(360deg) } }
+    .maint-title{margin:6px 0 10px; font-size:clamp(26px,4.5vw,42px); font-weight:800; color:#0f1d3a}
+    .maint-lead{margin:0 auto 18px; max-width:60ch; color:#5b6b7a; font-size:clamp(16px,1.6vw,18px)}
+    .maint-status{display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border:1px dashed #e6e8ef; border-radius:12px; margin:6px 0 20px; font-weight:600}
+    .maint-dot{width:10px;height:10px;border-radius:999px;background:#f59e0b;box-shadow:0 0 0 3px rgba(245,158,11,.18)}
+    .maint-actions{display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:10px}
+    .btn{appearance:none;border:1px solid #e6e8ef;background:#fff;color:#0f1d3a;padding:12px 18px;border-radius:12px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform .12s ease,box-shadow .12s ease}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    .btn.primary{background:#fd6c2f;color:#fff;border-color:transparent}
+    /* прибираємо дрібний текст-рекомендацію з попередньої версії */
+    .note{display:none}
+  </style>
+  <script defer src="/main.js"></script>
+</head>
+<body data-mpa-page>
+  <div class="maint-bg" aria-hidden="true"></div>
+
+  <main id="cases" class="page is-active maint-screen" role="main" aria-labelledby="title">
+    <section class="maint-card" role="status">
+      <div class="maint-gear" aria-hidden="true">⚙️</div>
+      <h1 id="title" class="maint-title">Раздел «Истории клиентов» на обслуживании</h1>
+      <p class="maint-lead">Страница временно недоступна из-за технических работ. Мы делаем всё, чтобы вернуться как можно быстрее.</p>
+
+      <div class="maint-status">
+        <span class="maint-dot" aria-hidden="true"></span>
+        <span>Статус: обслуживание</span>
+      </div>
+
+      <!-- Опціональний таймер: додай ?until=2025-09-01T12:00:00Z -->
+      <p id="eta" class="eta" hidden></p>
+
+      <div class="maint-actions">
+        <a class="btn primary" href="/ru/">На главную</a>
+        <button class="btn" id="retry">Обновить страницу</button>
+        <a class="btn" href="/ru/contacts/">Связаться с нами</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Обновить
+    document.getElementById('retry').addEventListener('click', () => location.reload());
+
+    // Таймер (если указан ?until=ISO8601)
+    (function(){
+      const el = document.getElementById('eta');
+      const u = new URLSearchParams(location.search).get('until');
+      if (!u) return;
+      const target = new Date(u);
+      if (isNaN(+target)) return;
+      el.hidden = false;
+      const pad = n => String(n).padStart(2,'0');
+      function tick(){
+        const ms = target - new Date();
+        if (ms <= 0){ el.textContent = 'Работы завершены. Обновите страницу.'; return; }
+        const s = Math.floor(ms/1000)%60, m = Math.floor(ms/60000)%60, h = Math.floor(ms/3600000);
+        el.textContent = `Ориентировочно: ${pad(h)}:${pad(m)}:${pad(s)}`;
+        requestAnimationFrame(tick);
+      }
+      tick();
+    })();
+  </script>
+</body>
+</html>
