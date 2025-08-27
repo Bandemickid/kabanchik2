@@ -1,6 +1,31 @@
 <!DOCTYPE html>
 <html lang="ru" class="__className_a0c668">
     <head>
+    <script>
+/* Prefix absolute URLs for GitHub Pages project site */
+(function (D, BASE) {
+  function pref(u){ return (u && u[0]==="/" && u[1]!=="/") ? BASE + u : u; }
+
+  // перезаписуємо <link>, <script>, <img> ще під час парсингу head
+  D.querySelectorAll('link[href^="/"]:not([href^="//"])').forEach(el=>{
+    el.setAttribute('href', pref(el.getAttribute('href')));
+  });
+  D.querySelectorAll('script[src^="/"]:not([src^="//"])').forEach(el=>{
+    el.setAttribute('src', pref(el.getAttribute('src')));
+  });
+
+  // після завантаження DOM — <a> та картинки в тілі
+  D.addEventListener('DOMContentLoaded', function () {
+    D.querySelectorAll('img[src^="/"]').forEach(el=>{
+      el.setAttribute('src', pref(el.getAttribute('src')));
+    });
+    D.querySelectorAll('a[href^="/"]:not([href^="//"])').forEach(el=>{
+      el.setAttribute('href', pref(el.getAttribute('href')));
+    });
+  });
+})(document, '/kabanchik2');
+</script>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
